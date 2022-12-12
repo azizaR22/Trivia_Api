@@ -94,8 +94,7 @@ Errors are returned as JSON in the following format:
     "message": "resource not found"
 }`
 
-The API will return three types of errors:
-
+The API will return three types of errors: 
 - 400 – bad request
 - 404 – resource not found
 - 422 – unprocessable
