@@ -73,22 +73,276 @@ You will need to provide detailed documentation of your API endpoints including 
 
 ### Documentation Example
 
-`GET '/api/v1.0/categories'`
+# API Reference
 
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
+## 
 
-```json
-{
-  "1": "Science",
-  "2": "Art",
-  "3": "Geography",
-  "4": "History",
-  "5": "Entertainment",
-  "6": "Sports"
-}
-```
+## Getting Started
+
+- The backend API is hosted at [http://127.0.0.1:5000](http://127.0.0.1:5000/), it can be used as base URL.
+- Authentication: This version does not require authentication or API keys.
+
+## 
+
+## Error Handling
+
+Errors are returned as JSON in the following format:
+
+`{
+    "success": False,
+    "error": 404,
+    "message": "resource not found"
+}`
+
+The API will return three types of errors:
+
+- 400 – bad request
+- 404 – resource not found
+- 422 – unprocessable
+
+## 
+
+## Endpoints
+
+### 
+
+### GET /categories
+
+- General: Return a list of categories
+- Sample: curl [http://127.0.0.1:5000/categories](http://127.0.0.1:5000/categories)
+
+`{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true
+}`
+
+### 
+
+### GET /questions
+
+- General:
+    - Return a list of questions
+    - Returned list is grouped by 10
+    - Total number of questions is also included in returned json
+- Sample: curl [http://127.0.0.1:5000/questions](http://127.0.0.1:5000/questions)
+
+  `{
+    "categories": {
+      "1": "Science",
+      "2": "Art",
+      "3": "Geography",
+      "4": "History",
+      "5": "Entertainment",
+      "6": "Sports"
+    },
+    "questions": [
+      {
+        "answer": "It's really excellent!",
+        "category": 1,
+        "difficulty": 3,
+        "id": 58,
+        "question": "How about udaicty FSND project?"
+      },
+      {
+        "answer": "It's really excellent!",
+        "category": 1,
+        "difficulty": 3,
+        "id": 56,
+        "question": "How about udaicty FSND project?"
+      },
+      {
+        "answer": "It's really excellent!",
+        "category": 1,
+        "difficulty": 3,
+        "id": 54,
+        "question": "How about udaicty FSND project?"
+      },
+      {
+        "answer": "It's really excellent!",
+        "category": 1,
+        "difficulty": 3,
+        "id": 37,
+        "question": "How about udaicty FSND project?"
+      },
+      {
+        "answer": "Blood",
+        "category": 1,
+        "difficulty": 4,
+        "id": 22,
+        "question": "Hematology is a branch of medicine involving the study of what?"
+      },
+      {
+        "answer": "Alexander Fleming",
+        "category": 1,
+        "difficulty": 3,
+        "id": 21,
+        "question": "Who discovered penicillin?"
+      },
+      {
+        "answer": "The Liver",
+        "category": 1,
+        "difficulty": 4,
+        "id": 20,
+        "question": "What is the heaviest organ in the human body?"
+      },
+      {
+        "answer": "Jackson Pollock",
+        "category": 2,
+        "difficulty": 2,
+        "id": 19,
+        "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+      },
+      {
+        "answer": "One",
+        "category": 2,
+        "difficulty": 4,
+        "id": 18,
+        "question": "How many paintings did Van Gogh sell in his lifetime?"
+      },
+      {
+        "answer": "Mona Lisa",
+        "category": 2,
+        "difficulty": 3,
+        "id": 17,
+        "question": "La Giaconda is better known as what?"
+      }
+    ],
+    "success": true,
+    "total_questions": 22
+  }`
+
+### 
+
+### DELETE /questions/<int:id>
+
+- General: Delete a question by id, if success return deleted question's id
+- Sample: curl [http://127.0.0.1:5000/questions/37](http://127.0.0.1:5000/questions/37) -X DELETE
+
+`{
+    "deleted": 37,
+    "success": true
+}`
+
+### 
+
+### POST /questions
+
+- General: Add a new question, and return newly add new question, and list of questions
+- Sample: curl [http://127.0.0.1:5000/questions](http://127.0.0.1:5000/questions) -X POST -H "Content-Type: application/json" -d '{ "question": "New
+question by POST", "answer": "Answer for new question", "difficulty": 3, "category": "3" }'
+
+`{
+    "created": 67,
+    "question_created": "New question by POST",
+    "questions": [
+        {
+            "answer": "Apollo 13",
+            "category": 5,
+            "difficulty": 4,
+            "id": 2,
+            "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+        },
+        {
+            "answer": "Answer for new question",
+            "category": 3,
+            "difficulty": 3,
+            "id": 67,
+            "question": "New question by POST"
+        }
+    ],
+    "success": true,
+    "total_questions": 21
+}`
+
+### 
+
+### POST /questions with searchTerm
+
+- General: Search questions which contains 'searchTerm' in JSON parameters
+- Sample: curl [http://127.0.0.1:5000/questions](http://127.0.0.1:5000/questions) -X POST -H "Content-Type: application/json" -d '{"searchTerm": "boxer"}'
+
+`{
+  "questions": [
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    }
+  ],
+  "success": true,
+  "total_questions": 1
+}`
+
+### 
+
+### GET /categories/<int:id>/questions
+
+- General: Return the list of questions which are in the category id
+- Sample: curl [http://127.0.0.1:5000/categories/1/questions](http://127.0.0.1:5000/categories/1/questions)
+
+`{
+  "current_category": "Science",
+  "questions": [
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Alexander Fleming",
+      "category": 1,
+      "difficulty": 3,
+      "id": 21,
+      "question": "Who discovered penicillin?"
+    },
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    },
+    {
+      "answer": "It's really excellent!",
+      "category": 1,
+      "difficulty": 3,
+      "id": 37,
+      "question": "How about udaicty FSND project?"
+    }
+  ],
+  "success": true,
+  "total_questions": 4
+}`
+
+### 
+
+### POST /quizzes
+
+- General: Return a random question, however, the returned question should be not one of previous questions
+- Sample:curl [http://127.0.0.1:5000/quizzes](http://127.0.0.1:5000/quizzes) -X POST -H "Content-Type: application/json" -d '{"previous_questions":
+[2, 9], "quiz_category": {"type": "Science", "id": "1"}}'
+
+`{
+  "question": {
+    "answer": "Alexander Fleming",
+    "category": 1,
+    "difficulty": 3,
+    "id": 21,
+    "question": "Who discovered penicillin?"
+  },
+  "success": true
+}`
 
 ## Testing
 
